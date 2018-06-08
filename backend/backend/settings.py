@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'webpack_loader',
     'corsheaders',
     'rest_framework',
     'catalog',
@@ -123,6 +124,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 CORS_ORIGIN_WHITELIST = (
     'localhost:8080',
 )
+
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': '',
+        'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats.json'),
+    }
+}

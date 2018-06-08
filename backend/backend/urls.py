@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from catalog import views
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),    
     url(r'^api/public/', views.public),
     url(r'^api/private/', views.private)
 ]
