@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "{workspaceFoler}/.python3/bin/python",
+    "python.pythonPath": "${workspaceFolder}/.python3/bin/python",
     "python.linting.enabled": false
 }
