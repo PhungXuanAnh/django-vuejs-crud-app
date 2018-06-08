@@ -1,0 +1,5 @@
+.python3
+
+
+# frontend ignore
+frontend/node_modules
