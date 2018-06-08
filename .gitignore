@@ -1,5 +1,4 @@
-.python3
-
-
-# frontend ignore
 frontend/node_modules
+
+.python3
+*.pyc
