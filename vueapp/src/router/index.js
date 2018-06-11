@@ -5,7 +5,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ProductList from '@/components/ProductList'
 import ProductCreate from '@/components/ProductCreate'
-import Callback from '@/components/Callback'
 import Home from '@/components/Home'
 
 Vue.use(Router)
@@ -30,11 +29,6 @@ const routes = [
     path: '/product-update/:pk',
     name: 'ProductUpdate',
     component: ProductCreate
-  },
-  {
-    path: '/callback',
-    name: 'Callback',
-    component: Callback
   }
 ]
 
