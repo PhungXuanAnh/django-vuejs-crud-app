@@ -11,40 +11,20 @@
           <li class="nav-item">
           <a class="btn btn-primary" href="/">Home</a>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
           <a class="btn btn-primary" href="/product-list">Products</a>
           </li>
           <li class="nav-item">
           <a class="btn btn-primary" href="/product-create">Create</a>
-          </li> -->
-          <!-- <li class="nav-item">
-          <a class="btn btn-primary" href="/product-create">Test</a>
-          </li> -->
+          </li>
 
         </ul>
-
-          <!-- <button
-            class="btn btn-primary btn-margin"
-            v-if="!authenticated"
-            @click="login()">
-              Log In
-          </button>
-
-          <button
-            class="btn btn-primary btn-margin"
-            v-if="authenticated"
-            @click="logout()">
-              Log Out
-          </button> -->
 
       </div>
     </nav>
 
     <div class="container">
-      <router-view 
-        :auth="auth" 
-        :authenticated="authenticated">
-      </router-view>
+      <router-view></router-view>
     </div>
 
 </div>  
