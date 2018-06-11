@@ -3,7 +3,7 @@ import axios from 'axios';
 import AuthService from '../auth/AuthService';
 
 // const API_URL = 'http://localhost:88';
-console.table(location);
+// console.table(location);
 const API_URL = location.origin;
 
 export class APIService{
