@@ -27,7 +27,5 @@ urlpatterns = [
     url(r'^api/products/(?P<pk>[0-9]+)$', views.product_detail),
     path('admin/', admin.site.urls),
     url(r'^(?:.*)/?$', TemplateView.as_view(template_name=settings.CATALOG_TEMPLATE), name='catchall'),
-    url(r'^api/message/$', views.message_handler),
-
 ]
 
