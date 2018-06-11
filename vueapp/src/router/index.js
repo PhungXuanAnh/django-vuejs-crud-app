@@ -7,7 +7,6 @@ import ProductList from '@/components/ProductList'
 import ProductCreate from '@/components/ProductCreate'
 import Callback from '@/components/Callback'
 import Home from '@/components/Home'
-import AuthService from '../auth/AuthService'
 
 Vue.use(Router)
 
@@ -15,19 +14,17 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: ProductCreate //Home
+    component: Home
   },
   {
     path: '/product-list',
     name: 'ProductList',
     component: ProductList,
-    meta: { requiresAuth : true }
   },
   {
     path: '/product-create',
     name: 'ProductCreate',
     component: ProductCreate,
-    // meta: { requiresAuth : true }    
   },
   {
     path: '/product-update/:pk',
@@ -45,28 +42,5 @@ const router = new Router({
   mode: 'history',
   routes
 })
-
-//const auth = new AuthService()
-
-// router.beforeEach((to, from, next) => {
-//   console.log('routing ', from, AuthService.authenticated())
-//   if(to.meta.requiresAuth)
-//   {
-//     if(!AuthService.authenticated())
-//     {
-//       next('/');
-//     }
-//   }
-//   next()
-// })
-
-// export function authGuard(to, from, next) {
-
-//   if(!AuthService.authenticated()){
-//     next('/');
-//   }
-//   next()
-
-// }
 
 export default router
