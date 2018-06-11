@@ -78,26 +78,10 @@ export default {
       showCreateMessage: false,
       showUpdateMessage: false,
       showError: false,
-      product: {
-        // channel: "mail",
-        // users: ["addr1@domain.com", "phungxuananh1991@gmail.com"],
-        // templateName: "templates.template",
-        // templateParams: {
-        //     subject: "Email from sigma sender service",
-        //     from_emai: "sender@sigma.com",
-        //     var1: "value of var1",
-        //     var2: "value of var2"
-        // },
-
-      },
+      product: {},
       products: '',
       creating: false,
       updating: false,
-      userDescription: "Enter list of users where you want to send message",
-      // types: [
-      //   'text', 'password', 'email', 'number', 'url',
-      //   'tel', 'date', `time`, 'range', 'color'
-      // ]
     };
   }, 
   methods: {
@@ -108,7 +92,6 @@ export default {
     },
     createProduct(){
       console.log('create product' + JSON.stringify(this.product));
-      this.product.templateParams = JSON.parse(this.product.templateParams)
       
       this.creating = true;
       apiService.createProduct(this.product).then((result)=>{
@@ -117,8 +100,6 @@ export default {
           if(result.status === 201){
             this.product = result.data;
             this.showCreateMessage = true;
-            
-            
           }
             sleep(1000).then(() => {
                this.creating = false;
