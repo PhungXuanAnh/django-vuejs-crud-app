@@ -140,13 +140,17 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 STATIC_URL = '/static/'
 
+IS_PRODUCTION = True
+# IS_PRODUCTION = False
+
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': '',
-        # 'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),       # for dev
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json'),    # for production
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json' if IS_PRODUCTION else 'webpack-stats.json' ),       # for dev
     }
 }
+
+CATALOG_TEMPLATE='index_prod.html' if IS_PRODUCTION else 'index_dev.html'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -288,3 +292,4 @@ LOGGING = {
         },
     }
 }
+
