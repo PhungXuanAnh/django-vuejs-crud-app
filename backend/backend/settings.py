@@ -122,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'frontend/dist'),
+    os.path.join(BASE_DIR, '../frontend/dist'),
     # os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'public')
@@ -134,7 +134,7 @@ IS_PRODUCTION = True
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': '',
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json' if IS_PRODUCTION else 'webpack-stats.json' ),       # for dev
+        'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats-prod.json' if IS_PRODUCTION else '../webpack-stats.json' ),       # for dev
     }
 }
 
