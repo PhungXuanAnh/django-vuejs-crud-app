@@ -18,11 +18,9 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls import url
 from django.views.generic import TemplateView
-from django.views.generic import RedirectView
 from catalog import views
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name=settings.CATALOG_TEMPLATE), name='index'),
     url(r'^api/products/$', views.product_list),
     url(r'^api/products/(?P<pk>[0-9]+)$', views.product_detail),
     path('admin/', admin.site.urls),
