@@ -12,18 +12,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import json
-from six.moves.urllib import request
-
-from cryptography.x509 import load_pem_x509_certificate
-from cryptography.hazmat.backends import default_backend
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# https://screenshots.firefoxusercontent.com/images/d1fc6927-8923-4f05-9489-00aec327e685.png
-# https://screenshots.firefoxusercontent.com/images/fc001c90-9e72-44d4-902e-61842a7c01cc.png
-# https://screenshots.firefoxusercontent.com/images/9c2ce859-3afa-4cee-a349-618f91303fa7.png
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -47,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'rest_framework',
-    'django_filters',
     'webpack_loader',
     'corsheaders'
 ]
@@ -150,23 +140,10 @@ WEBPACK_LOADER = {
 
 CATALOG_TEMPLATE='index_prod.html' if IS_PRODUCTION else 'index_dev.html'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        # 'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ),
-}
-
-
 CORS_ORIGIN_WHITELIST = (
     'localhost:8080',
     '127.0.0.1:8080',
 )
-
 
 #================================================================================
 # config for logging
