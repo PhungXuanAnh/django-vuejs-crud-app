@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'webpack_loader'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,10 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8080',
     'localhost:8000',
 )
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': '',
+        'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats.json'),
+    }
+}
