@@ -29,8 +29,8 @@ COPY . /build
 # RUN pip3 install pip --upgrade # pip3 version 10 has bug
 RUN pip3 install -r requirements.txt
 
-RUN cd vueapp && npm install
-RUN cd vueapp && npm run build
+RUN cd frontend && npm install
+RUN cd frontend && npm run build
 RUN python3 manage.py collectstatic --noinput
 
 ENV C_FORCE_ROOT="true"

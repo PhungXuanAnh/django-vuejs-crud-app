@@ -50,7 +50,7 @@ sudo apt-get install python3-dev
 Next install the Vue.js dependencies and run the front-end dev server with:
 
 ```bash
-cd vueapp
+cd frontend
 npm install
 npm run dev
 ```
