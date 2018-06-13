@@ -21,6 +21,8 @@ from django.conf.urls import url
 from catalog import views
 
 urlpatterns = [
+    url(r'^api/products/$', views.product_list),
+    url(r'^api/products/(?P<pk>[0-9]+)$', views.product_detail),
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     path('admin/', admin.site.urls),
 ]
