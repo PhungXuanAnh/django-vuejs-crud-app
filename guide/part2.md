@@ -256,16 +256,17 @@ Next you need to create the two API endpoints **api/products/** for querying and
 Go ahead and open **backend/urls.py** then add
 
 ```python
-##...
+from django.contrib import admin
+from django.urls import path
+from django.views.generic import TemplateView
+from django.conf.urls import url
+
 from catalog import views
-##...
 
 urlpatterns = [
-    ##...
+    path('admin/', admin.site.urls),
     url(r'^api/products/$', views.product_list),
     url(r'^api/products/(?P<pk>[0-9]+)$', views.product_detail),
-    ##...
-
 ]
 ```
 
@@ -825,6 +826,26 @@ to
 ```python
     url(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html'), name='catchall'),
 ```
+
+and the result of **urls.py** is:
+
+```python
+from django.contrib import admin
+from django.urls import path
+from django.views.generic import TemplateView
+from django.conf.urls import url
+
+from catalog import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    url(r'^api/products/$', views.product_list),
+    url(r'^api/products/(?P<pk>[0-9]+)$', views.product_detail),
+    url(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html'), name='catchall'),
+]
+```
+
+**NOTE:** use extracly sequence of url declared in urls.py as above, if not, you should encountered error **Forbidden (CSRF cookie not set.): /api/products/** when create new product or can't get product in Product view
 
 ### Fix error: No 'Access-Control-Allow-Origin' header is present
 
