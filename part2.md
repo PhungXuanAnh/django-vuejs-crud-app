@@ -251,7 +251,7 @@ Now that you have created the API you need to consume it from your app front-end
 
 For the sake of organizing the code you'll encapsulate all the code that communicates with the API in one single class that will be used from different views to make any calls to the API endpoints.
 
-So inside **frontend/src** create an http folder (or call it whatever you want) then create the **APIService.js** class
+So inside **frontend/src** create an **http** folder (or call it whatever you want) then create the **APIService.js** class
 
 This class provides wrapper methods for the Axios get, post, put and delete methods.
 
@@ -264,4 +264,508 @@ The APIService.js class contains these methods
 - deleteProduct(product): you'll use this method to delete a product
 
 In **APIService.js** copy the following code
+
+```javascript
+import axios from 'axios';
+const API_URL = 'http://localhost:8000';
+
+export class APIService{
+    constructor(){
+
+    }
+
+    /* The other methods go here */
+}
+```
+
+This code imports axios and AuthService class then declares an API_URL constant pointing to the URL of the local Django server and finally declares and exports the APIService which contains different methods to interact with the Django API.
+
+Let's now see the implementations of different methods of the APIService
+
+### Getting Products
+
+Let's start with the **getProducts()** to query the API endpoint for available products. Copy the following code to your **APIService.js** file:
+
+```javascript
+    getProducts() {
+        const url = `${API_URL}/api/products/`;
+        return axios.get(url).then(response => response.data);
+    }
+```
+
+The **getProducts()** method sends a GET request to the **/api/products/** endpoint using **axios.get()** method with the Auth0 authorization header retrieved from the local storage.
+
+### Getting a Product by Id
+
+Let's now see the implementation of the getProduct(pk) method for retrieving single products.
+
+```javascript
+    getProduct(pk) {
+        const url = `${API_URL}/api/products/${pk}`;
+        return axios.get(url).then(response => response.data);
+    }
+```
+
+The **getProduct(pk)** method sends an authorized GET request to **/api/products/<pk>** endpoint for retrieving a single product by its id or primary key.
+
+### Getting Products by URL
+
+The API you created returns links to access the previous and next pages of data so you need to add this method which retrieves the products for a specified page by its URL.
+
+```javascript
+    getProductsByURL(link){
+        const url = `${API_URL}${link}`;
+        return axios.get(url).then(response => response.data);
+
+    }
+```
+
+### Deleting a Product
+
+Let's now add the function which handles calling the endpoint for deleting a single product
+
+```javascript
+    deleteProduct(product){
+        const url = `${API_URL}/api/products/${product.pk}`;
+        return axios.delete(url);
+    }
+```
+
+The **deleteProduct(product)** sends a DELETE request to the **/api/products/<pk>** endpoint using the **axios.delete()** method.
+
+### Creating a Product
+
+Next, let's add the method to create a product
+
+```javascript
+    createProduct(product){
+        const url = `${API_URL}/api/products/`;
+        return axios.post(url,product);
+    }
+```
+
+The **createProduct(product)** function sends a POST request to the **/api/products/** endpoint with an authorization token retrieved from the local storage using the **axios.post()** method.
+
+### Updating a Product
+
+The last method is used for updating products
+
+```javascript
+    updateProduct(product){
+        const url = `${API_URL}/api/products/${product.pk}`;
+        return axios.put(url,product);
+    }
+```
+
+The **updateProduct(product)** sends a PUT request to the **/api/products/<pk>** endpoint with an authorization header using the **axios.put()** method.
+
+## Creating the Front End Views
+
+Now it's time to create the front end views to display, create, update and delete products
+
+The demo app you are going to build has the following views:
+
+- **App.vue**: this is the main view which includes the common header of all pages and the router view in which the other components are inserted by the Vue router
+- **Home.vue**: this is the home view with some information about the project
+- **ProductList.vue**: this page displays a paginated list of products with links to the other pages
+- **ProductCreate.vue**: this is the product create view for creating and also updating products
+- **Callback.vue**: this is the callback view that will be called when Auth0 authentication is successful to handle the authentication and saves the auth token in the local storage.
+
+### Building the App View
+
+Let's start by adding the **App.vue** template. The generated Vue project already contains an **App.vue** file so simply update it to reflect the following template
+
+```javascript
+
+```
+
+This code a header styled with Bootstrap that contains links to different pages and button to login and logout then a **<router-view>** component which renders the matched component for the given path. See the docs for [router-view](https://router.vuejs.org/api/).
+
+You don't need to add the JavaScript code for the **App.vue** component, because we don't need handle anything here.
+
+Also make sure to include Bootstrap 4 using the CSS @import
+
+So download [bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/download/) and unzip it in the **assets** folder then add a <style> block with the following content
+
+
+```html
+<style>
+@import './assets/bootstrap.min.css';
+body {
+  min-height: 75rem;
+  padding-top: 4.5rem;
+}
+.nav-item{
+  padding:1px;
+  margin-left: 5px;
+}
+</style>
+```
+
+This is a screen shot of the header you should get
+
+![this is a picture]()
+
+### Adding Routing mode to The Vue Router
+
+Open the **src/router/index.js** file then add the mode **history** to router declaration:
+
+```javascript
+export default new Router({
+  mode: 'history',
+  routes: [
+      //...
+})
+```
+
+### Adding the Home View
+
+Next let's add the home view. Navigate inside the components folder then create and open the **Home.vue** file.
+
+First copy the following template:
+
+```html
+<template>
+    <main role="main">
+      <div class="jumbotron">
+        <h1>Django - Auth0 - Vue</h1>
+        <p class="lead">This demo application uses Django and Django REST Framework for backend, Vue for the frontend and Auth0 for handling user's authentication</p>
+        <a class="btn btn-lg btn-primary" href="" role="button">View tutorial</a>
+      </div>
+    </main>
+</template>
+```
+
+Aside from that this component displays a Bootstrap jumbotron with some information about the demo.
+
+Next add the following JavaScript code in the same file
+
+```javascript
+<script>
+  export default {
+    name: 'home',
+ }
+</script>
+```
+
+### Adding route for the Home View
+
+Open the **src/router/index.js** file then add
+
+```javascript
+//...
+import Home from '@/components/Home'
+//...
+export default new Router({
+  mode: 'history',
+  routes: [
+    //...
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+    //...
+```
+
+**NOTE** Remove already **HelloWorld** path to change it from / to /**hello-world**
+
+This is what you should get at this point
+
+![image of home view]()
+
+
+### Adding component Loading
+
+This component will be used in Product List View
+
+Now let's create the view to display the paginated list of products fetched from the API endpoint. Go ahead and create the **Loading.vue** file inside the **components** folder then open it.
+
+Next copy the following code for the template part:
+
+```html
+<template>
+
+  <div class="spinner" v-if="loading">
+    <img src="../assets/loading.svg" alt="loading"/>
+  </div>
+</template>
+
+<script>
+/* eslint-disable */
+  export default {
+    name: 'Loading',
+    props: ['loading'],
+    data () {
+        return {}
+    }
+  }
+</script>
+
+<style>
+    h1{
+        color: black;
+    }
+  .spinner {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+</style>
+```
+
+Then add file [loading.svg](https://raw.githubusercontent.com/PhungXuanAnh/django-vuejs/good/frontend/src/assets/loading.svg) to folder **src/asserts**
+
+### Adding the Product List View
+
+Now let's create the view to display the paginated list of products fetched from the API endpoint. Go ahead and create the **ProductList.vue** file inside the **components** folder then open it.
+
+Next copy the following code for the template part
+
+```html
+<template>
+<div>
+<h1>Products ()</h1>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>SKU</th>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr   v-for="product in products" v-bind:key="product.pk" @click="selectProduct(product)">
+      <th></th>
+      <th></th>
+      <td></td>
+      <td> </td>
+      <td></td>
+      <td>
+        <button class="btn btn-danger" @click="deleteProduct(product)"> X</button>
+        <a class="btn btn-primary" v-bind:href="'/product-update/' + product.pk"> &#9998; </a>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div>
+<ul class="list-horizontal">
+  <li><button class="btn btn-primary" @click="getPreviousPage()">Previous</button></li>
+  <li v-for="page in pages" v-bind:key="page.link">
+    <a class="btn btn-primary" @click="getPage(page.link)"></a>
+  </li>
+  <li><button class="btn btn-primary" @click="getNextPage()">Next</button></li>
+</ul>
+
+
+</div>
+
+<div class="card text-center" v-if="selectedProduct">
+  <div class="card-header">
+    # -- 
+  </div>
+  <div class="card-block">
+    <h4 class="card-title"></h4>
+    <p class="card-text">
+
+    </p>
+    <a class="btn btn-primary" v-bind:href="'/product-update/' + selectedProduct.pk"> &#9998; </a>
+    <button class="btn btn-danger" @click="deleteProduct(selectedProduct)"> X</button>
+
+  </div>
+
+</div>
+</div>
+</template>
+```
+
+This template displays the table of products and details about a selected product below the table.
+
+Next you need to define different methods and variables used in this template so in the same file add the following code
+
+```javascript
+<script>
+import {APIService} from '../http/APIService';
+import Loading from './Loading';
+const API_URL = 'http://localhost:8000';
+const apiService = new APIService();
+
+export default {
+  name: 'ProductList',
+  data() {
+    return {
+      selectedProduct:null,
+      products: [],
+      numberOfPages:0,
+      pages : [],
+      numberOfProducts:0,
+      loading: false,
+      nextPageURL:'',
+      previousPageURL:''
+    };
+  }, 
+  methods: {
+    getProducts(){
+
+      this.loading = true;
+      apiService.getProducts().then((page) => {
+        this.products = page.data;
+        console.log(page);
+        console.log(page.nextlink);
+        this.numberOfProducts = page.count;
+        this.numberOfPages = page.numpages;
+        this.nextPageURL = page.nextlink;
+        this.previousPageURL = page.prevlink;
+        if(this.numberOfPages)
+        {
+          for(var i = 1 ; i <= this.numberOfPages ; i++)
+          {
+            const link = `/api/products/?page=${i}`;
+            this.pages.push({pageNumber: i , link: link})
+          }
+        }
+        this.loading = false;
+      });
+    },
+    getPage(link){
+      this.loading = true;  
+      apiService.getProductsByURL(link).then((page) => {
+        this.products = page.data;
+        this.nextPageURL = page.nextlink;
+        this.previousPageURL = page.prevlink;
+        this.loading = false;
+      });
+    },
+    getNextPage(){
+      console.log('next' + this.nextPageURL);
+      this.loading = true;  
+      apiService.getProductsByURL(this.nextPageURL).then((page) => {
+        this.products = page.data;
+        this.nextPageURL = page.nextlink;
+        this.previousPageURL = page.prevlink;
+        this.loading = false;
+      });
+
+    },
+    getPreviousPage(){
+      this.loading = true;  
+      apiService.getProductsByURL(this.previousPageURL).then((page) => {
+        this.products = page.data;
+        this.nextPageURL = page.nextlink;
+        this.previousPageURL = page.prevlink;
+        this.loading = false;
+      });
+
+    },
+    deleteProduct(product){
+      console.log("deleting product: " + JSON.stringify(product))
+      apiService.deleteProduct(product).then((r)=>{
+        console.log(r);
+        if(r.status === 204)
+        {
+          alert("Product deleted");
+          this.$router.go()
+
+        }
+      })
+    },
+    selectProduct(product){
+      this.selectedProduct = product;
+    }
+  },
+  mounted() {
+
+    this.getProducts();
+
+  },
+}
+</script>
+```
+
+Next, add css part:
+
+```css
+<style scoped>
+.list-horizontal li {
+    display:inline-block;
+}
+.list-horizontal li:before {
+    content: '\00a0\2022\00a0\00a0';
+    color:#999;
+    color:rgba(0,0,0,0.5);
+    font-size:11px;
+}
+.list-horizontal li:first-child:before {
+    content: '';
+}
+</style>
+```
+
+### Adding route for the Product List View
+
+Open the **src/router/index.js** file then add
+
+```javascript
+//...
+import Home from '@/components/Home'
+//...
+export default new Router({
+  mode: 'history',
+  routes: [
+    //...
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+    //...
+```
+
+In nutshell this code creates an instance of the APIService class then wraps different methods to get and delete products and also to get previous and next pages of data.
+
+### Fix error: GET /product-list HTTP/1.1" 404
+
+At this point, when you click button **Product** you should get error **GET /product-list HTTP/1.1" 404**
+
+To fix, open **backend/urls.py** and change line:
+
+```python
+    url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
+```
+
+to
+
+```python
+    url(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html'), name='catchall'),
+```
+
+### Fix error: No 'Access-Control-Allow-Origin' header is present
+
+Click button **Product** again, then press **F12** to open debug console in Chrome, you shoule see error **Failed to load http://localhost:8000/api/products/: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://127.0.0.1:8000' is therefore not allowed access.**
+
+To fix, open **settings.py** change following code:
+
+```python
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+    '127.0.0.1:8080',
+    'localhost:8000',
+    '127.0.0.1:8000',
+)
+```
+
+This is a screen shot of what you should get
+
+![image of home view]()
 
