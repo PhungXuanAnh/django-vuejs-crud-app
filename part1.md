@@ -1,5 +1,4 @@
 
-- [Create backend and frontend folders](#create-backend-and-frontend-folders)
 - [Bootstrapping the Back-End Project](#bootstrapping-the-back-end-project)
 - [Bootstrapping the Front-end Project](#bootstrapping-the-front-end-project)
 - [Integrating Vue and Django](#integrating-vue-and-django)
@@ -35,17 +34,17 @@ vue init webpack frontend
 
 Vue.js will ask a bunch of questions while creating your project. You can answer them as follows:
 
-
-    ? Project name frontend
-    ? Project description A Vue.js project
-    ? Author Phung Xuan Anh <anhpx@sigma-solutions.eu>
-    ? Vue build standalone
-    ? Install vue-router? Yes
-    ? Use ESLint to lint your code? No
-    ? Set up unit tests No
-    ? Setup e2e tests with Nightwatch? No
-    ? Should we run `npm install` for you after the project has been created? (recommended) npm
-
+```java
+? Project name frontend
+? Project description A Vue.js project
+? Author Phung Xuan Anh <anhpx@sigma-solutions.eu>
+? Vue build standalone
+? Install vue-router? Yes
+? Use ESLint to lint your code? No
+? Set up unit tests No
+? Setup e2e tests with Nightwatch? No
+? Should we run `npm install` for you after the project has been created? (recommended) npm
+```
 
 ```shell
 # change working directory to the front-end
