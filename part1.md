@@ -6,13 +6,6 @@
 - [Serving the Index Template](#serving-the-index-template)
 - [Fixing Hot Code Reloading](#fixing-hot-code-reloading)
 
-## Create backend and frontend folders
-
-```shell
-mkdir backend
-mkdir frontend
-```
-
 ## Bootstrapping the Back-End Project
 
 ```shell
@@ -21,7 +14,7 @@ virtualenv3 .
 source .python3/bin/activate
 
 pip install django
-django-admin startproject backend .
+django-admin startproject backend
 python manage.py startapp catalog
 python manage.py migrate
 python manage.py runserver
