@@ -1,6 +1,5 @@
 
 - [Bootstrapping the Back-End Project](#bootstrapping-the-back-end-project)
-- [Bootstrapping the Front-end Project](#bootstrapping-the-front-end-project)
 - [Integrating Vue and Django](#integrating-vue-and-django)
 - [Serving the Index Template](#serving-the-index-template)
 - [Fixing Hot Code Reloading](#fixing-hot-code-reloading)
@@ -8,16 +7,25 @@
 ## Bootstrapping the Back-End Project
 
 ```shell
+mkdir backend
 cd backend/
 virtualenv3 .
 source .python3/bin/activate
 
 pip install django
-django-admin startproject backend
+django-admin startproject backend .
 python manage.py startapp catalog
 python manage.py migrate
 python manage.py runserver
 ```
+
+Add **catalog** to install app in **settings.py**:
+
+```python
+INSTALLED_APPS = [
+    # ...
+    'catalog'
+]
 
 If you navigate to http://127.0.0.1:8000 in a web browser, you will see the following homepage:
 
@@ -191,6 +199,13 @@ urlpatterns = [
 
 ```
 
+Run server 2 serve again
+
+```shell
+cd backend && python manage.py runserver
+cd frontend && npm start
+```
+
 Now reload your Django application, you will get the Yellow page with an error with Django complaining about not finding the **webpack-stats.json** file needed by the Webpack loader.
 
     Error reading /xxxx/xxxx/xxxx/django-auth0-vue-part-2/webpack-stats.json. Are you sure webpack has generated the file and the path is correct?
@@ -211,17 +226,17 @@ const BundleTracker = require('webpack-bundle-tracker')
 /*...*/
 
   plugins: [
+    new BundleTracker({filename: '../webpack-stats.json'}),
     /*...*/
-    new BundleTracker({filename: '../webpack-stats.json'})
   ]
 
 ```
 
 This tells webpack-bundle-tracker to generate the stats file in the root folder of your project.
 
-If you re-run you Webpack dev server, you'll have the webpack-stats.json file generated in root of your project:
+If you **re-run** you Webpack dev server `npm start`, you'll have the webpack-stats.json file generated in root of your project:
 
-If you visit you Django app now you'll get this error in the console
+**Re-run** django server `python manage.py runserver`. If you visit you Django app now you'll get this error in the console
 
 Loading failed for the <script> with source “http://127.0.0.1:8000/app.js”.
 
@@ -244,6 +259,7 @@ module.exports = {
 Next **re-run** your frontend app:
 
 ```shell
+
 npm run dev
 or
 npm start
