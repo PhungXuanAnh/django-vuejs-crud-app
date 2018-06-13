@@ -140,7 +140,7 @@ From [Django REST framework docs](http://www.django-rest-framework.org/api-guide
 
     Serializers allow complex data such as querysets and model instances to be converted to native Python datatypes that can then be easily rendered into JSON, XML or other content types. Serializers also provide deserialization, allowing parsed data to be converted back into complex types, after first validating the incoming data.
 
-Create a **serializers.py** file inside your the catalog app folder then add the following code to create a serializer class for the product model
+Create a `serializers.py` file inside your the catalog app folder then add the following code to create a serializer class for the product model
 
 ```python
 from rest_framework import serializers
@@ -268,6 +268,7 @@ urlpatterns = [
 
 ]
 ```
+
 Re-run django server
 
 ```shell
@@ -404,8 +405,37 @@ The demo app you are going to build has the following views:
 
 Let's start by adding the **App.vue** template. The generated Vue project already contains an **App.vue** file so simply update it to reflect the following template
 
-```javascript
+```html
+<template>
+<div>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Django - Auth0 - Vue</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
 
+          <li class="nav-item">
+          <a class="btn btn-primary" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+          <a class="btn btn-primary" href="/product-list">Products</a>
+          </li>
+          <li class="nav-item">
+          <a class="btn btn-primary" href="/product-create">Create</a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <router-view></router-view>
+    </div>
+
+</div>  
+</template>
 ```
 
 This code a header styled with Bootstrap that contains links to different pages and button to login and logout then a **<router-view>** component which renders the matched component for the given path. See the docs for [router-view](https://router.vuejs.org/api/).
@@ -433,7 +463,7 @@ body {
 
 This is a screen shot of the header you should get
 
-![this is a picture]()
+![image](images/21.png)
 
 ### Adding Routing mode to The Vue Router
 
@@ -501,8 +531,7 @@ export default new Router({
 
 This is what you should get at this point
 
-![image of home view]()
-
+![image](images/22.png)
 
 ### Adding component Loading
 
@@ -550,7 +579,7 @@ Next copy the following code for the template part:
 </style>
 ```
 
-Then add file [loading.svg](https://raw.githubusercontent.com/PhungXuanAnh/django-vuejs/good/frontend/src/assets/loading.svg) to folder **src/asserts**
+Then download and add file [loading.svg](https://raw.githubusercontent.com/PhungXuanAnh/django-vuejs/good/frontend/src/assets/loading.svg) to folder **src/asserts**
 
 ### Adding the Product List View
 
@@ -801,7 +830,7 @@ to
 
 Click button **Product** again, then press **F12** to open debug console in Chrome, you shoule see error **Failed to load http://localhost:8000/api/products/: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://127.0.0.1:8000' is therefore not allowed access.**
 
-To fix, open **settings.py** change following code:
+To fix, open **`settings.py`** change following code:
 
 ```python
 CORS_ORIGIN_WHITELIST = (
@@ -814,7 +843,7 @@ CORS_ORIGIN_WHITELIST = (
 
 This is a screen shot of what you should get
 
-![image of home view]()
+![image](images/23.png)
 
 ### Adding the Product Create/Update View
 
@@ -996,8 +1025,7 @@ export default new Router({
 
 This is a screen shot of what you should get 
 
-![image]()
-
+![image](images/24.png)
 
 ## Getting Ready for Production
 
@@ -1012,9 +1040,9 @@ const BundleTracker = require('webpack-bundle-tracker')
 Then add BundleTracker to plugins
 
 ```javascript
-   plugins: [
-        new BundleTracker({filename: '../webpack-stats-prod.json'}),
-        //...
+plugins: [
+    new BundleTracker({filename: '../webpack-stats-prod.json'}),
+    //...
 ```
 
 This tells **BundleTracker** to generate **webpack-stats-prod.json** in the root folder.
@@ -1022,14 +1050,14 @@ This tells **BundleTracker** to generate **webpack-stats-prod.json** in the root
 In **frontend/config/index.js** change **static** to **assets** (because commonly Django uses the **/static/** URL for serving static files so you don't want to have URLs with **/static/static/** paths). You also need to set the assets public path to **/static/** so Webpack can generate URLs because Django serves static files over the **/static/** URL.
 
 ```javascript
-    build: {
-        // Template for index.html
-        index: path.resolve(__dirname, '../dist/index.html'),
+  build: {
+      // Template for index.html
+      index: path.resolve(__dirname, '../dist/index.html'),
 
-        // Paths
-        assetsRoot: path.resolve(__dirname, '../dist'),
-        assetsSubDirectory: 'assets', 
-        assetsPublicPath: '/static/',
+      // Paths
+      assetsRoot: path.resolve(__dirname, '../dist'),
+      assetsSubDirectory: 'assets', 
+      assetsPublicPath: '/static/',
 ```
 
 Run the following command for generating the build files
@@ -1040,9 +1068,7 @@ npm run build
 
 You will get file **webpack-stats-prod.json** and a frontend/dist folder that contains the build files.
 
-![image]()
-
-and 
+![image](images/25.png)
 
 Next in **settings.py** change
 
@@ -1076,7 +1102,7 @@ python manage.py collectstatic
 
 A public folder will be created and all static files will be copied there.
 
-![image]()
+![image](images/26.png)
 
 In production Webpack will produce many chunks of your bundle for performance reasons so you'll need to change your Django template to include all the chunks
 
