@@ -1,4 +1,4 @@
-In this tutorial, it is step by step to build a web application using backend django and frontend vuejs
+In this tutorial, you will build a web application using backend django and frontend vuejs, step by step
 
 [Part 1 - Create sample django vuejs app](part1.md)
 
