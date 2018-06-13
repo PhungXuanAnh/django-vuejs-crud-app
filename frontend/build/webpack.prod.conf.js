@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const BundleTracker = require('webpack-bundle-tracker')
 
 const env = require('../config/prod.env')
 
@@ -29,6 +30,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
+    new BundleTracker({filename: '../webpack-stats-prod.json'}),
     new webpack.DefinePlugin({
       'process.env': env
     }),

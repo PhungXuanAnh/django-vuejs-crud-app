@@ -1,6 +1,7 @@
 backend/.python3
-
+backend/public
 frontend/package-lock.json
 
 __pycache__
 webpack-stats.json
+webpack-stats-prod.json
