@@ -1,3 +1,32 @@
+- [Building the REST API](#building-the-rest-api)
+  - [Adding the Product Model](#adding-the-product-model)
+  - [Adding the Serializer Class](#adding-the-serializer-class)
+  - [Adding the API Views](#adding-the-api-views)
+  - [Adding the Product List/Create API View](#adding-the-product-listcreate-api-view)
+  - [Adding the Product Detail API View](#adding-the-product-detail-api-view)
+  - [Adding API Endpoints](#adding-api-endpoints)
+- [Creating the Service to Consume the API](#creating-the-service-to-consume-the-api)
+  - [Getting Products](#getting-products)
+  - [Getting a Product by Id](#getting-a-product-by-id)
+  - [Getting Products by URL](#getting-products-by-url)
+  - [Deleting a Product](#deleting-a-product)
+  - [Creating a Product](#creating-a-product)
+  - [Updating a Product](#updating-a-product)
+- [Creating the Front End Views](#creating-the-front-end-views)
+  - [Building the App View](#building-the-app-view)
+  - [Adding Routing mode to The Vue Router](#adding-routing-mode-to-the-vue-router)
+  - [Adding the Home View](#adding-the-home-view)
+  - [Adding route for the Home View](#adding-route-for-the-home-view)
+  - [Adding component Loading](#adding-component-loading)
+  - [Adding the Product List View](#adding-the-product-list-view)
+  - [Adding route for the Product List View](#adding-route-for-the-product-list-view)
+  - [Adding filter currency](#adding-filter-currency)
+  - [Fix error: GET /product-list HTTP/1.1" 404](#fix-error-get-product-list-http11-404)
+  - [Fix error: No 'Access-Control-Allow-Origin' header is present](#fix-error-no-access-control-allow-origin-header-is-present)
+  - [Adding the Product Create/Update View](#adding-the-product-createupdate-view)
+  - [Adding route for the Product Create/Update View](#adding-route-for-the-product-createupdate-view)
+- [Getting Ready for Production](#getting-ready-for-production)
+
 ## Building the REST API
 
 Django REST framework is a powerful and easy to use package for building Web APIs.
@@ -787,7 +816,7 @@ This is a screen shot of what you should get
 
 ![image of home view]()
 
-## Adding the Product Create/Update View
+### Adding the Product Create/Update View
 
 This view is used to create and also update products by id so create a **ProductCreate.vue** file then open it and add the following template
 

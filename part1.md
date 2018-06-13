@@ -1,4 +1,10 @@
-# Guide step by step
+
+- [Create backend and frontend folders](#create-backend-and-frontend-folders)
+- [Bootstrapping the Back-End Project](#bootstrapping-the-back-end-project)
+- [Bootstrapping the Front-end Project](#bootstrapping-the-front-end-project)
+- [Integrating Vue and Django](#integrating-vue-and-django)
+- [Serving the Index Template](#serving-the-index-template)
+- [Fixing Hot Code Reloading](#fixing-hot-code-reloading)
 
 ## Create backend and frontend folders
 
@@ -22,7 +28,6 @@ python manage.py runserver
 ```
 
 If you navigate to http://127.0.0.1:8000 in a web browser, you will see the following homepage:
-
 
 ## Bootstrapping the Front-end Project
 
@@ -149,7 +154,7 @@ WEBPACK_LOADER = {
 
 This tells Webpack loader to look for **webpack-stats.json** in the root folder of the project. This file holds information about the static assets that Webpack has generated (you will see next how to generate this file).
 
-### Serving the Index Template
+## Serving the Index Template
 
 Now you need to create and serve an **index.html** file, where you can mount the Vue application, using a Django view
 
@@ -253,7 +258,7 @@ npm start
 
 ```
 
-### Fixing Hot Code Reloading
+## Fixing Hot Code Reloading
 
 Now in **frontend/build/webpack.dev.conf.js** you need to configure the Webpack Dev server to accept requests from other origins such as http://localhost:8000 since the Django server will send XHR requests to http://localhost:8080 for getting the source file changes.
 
