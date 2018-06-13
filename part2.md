@@ -532,60 +532,57 @@ Next copy the following code for the template part
 ```html
 <template>
 <div>
-<h1>Products ()</h1>
-<table class="table table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>SKU</th>
-      <th>Name</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr   v-for="product in products" v-bind:key="product.pk" @click="selectProduct(product)">
-      <th></th>
-      <th></th>
-      <td></td>
-      <td> </td>
-      <td></td>
-      <td>
-        <button class="btn btn-danger" @click="deleteProduct(product)"> X</button>
-        <a class="btn btn-primary" v-bind:href="'/product-update/' + product.pk"> &#9998; </a>
+  <h1>Products ({{numberOfProducts}})</h1>
+  <Loading :loading="loading"></Loading>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="product in products" v-bind:key="product.pk" @click="selectProduct(product)">
+        <th>{{product.pk}}</th>
+        <th>{{product.sku}}</th>
+        <td>{{product.name}}</td>
+        <td>{{product.quantity}} {{product.unit}}</td>
+        <td>{{product.sellPrice | currency}}</td>
+        <td>
+          <button class="btn btn-danger" @click="deleteProduct(product)"> X</button>
+          <a class="btn btn-primary" v-bind:href="'/product-update/' + product.pk"> &#9998; </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div>
-<ul class="list-horizontal">
-  <li><button class="btn btn-primary" @click="getPreviousPage()">Previous</button></li>
-  <li v-for="page in pages" v-bind:key="page.link">
-    <a class="btn btn-primary" @click="getPage(page.link)"></a>
-  </li>
-  <li><button class="btn btn-primary" @click="getNextPage()">Next</button></li>
-</ul>
-
-
-</div>
-
-<div class="card text-center" v-if="selectedProduct">
-  <div class="card-header">
-    # -- 
-  </div>
-  <div class="card-block">
-    <h4 class="card-title"></h4>
-    <p class="card-text">
-
-    </p>
-    <a class="btn btn-primary" v-bind:href="'/product-update/' + selectedProduct.pk"> &#9998; </a>
-    <button class="btn btn-danger" @click="deleteProduct(selectedProduct)"> X</button>
-
+  <div>
+  <ul class="list-horizontal">
+    <li><button class="btn btn-primary" @click="getPreviousPage()">Previous</button></li>
+    <li v-for="page in pages" v-bind:key="page.link">
+      <a class="btn btn-primary" @click="getPage(page.link)">{{ page.pageNumber }}</a>
+    </li>
+    <li><button class="btn btn-primary" @click="getNextPage()">Next</button></li>
+  </ul>
   </div>
 
-</div>
+  <div class="card text-center" v-if="selectedProduct">
+    <div class="card-header">
+      #{{selectedProduct.pk}} -- {{selectedProduct.sku}}
+    </div>
+    <div class="card-block">
+      <h4 class="card-title">{{selectedProduct.name}}</h4>
+      <p class="card-text">
+        {{selectedProduct.description}}
+      </p>
+      <a class="btn btn-primary" v-bind:href="'/product-update/' + selectedProduct.pk"> &#9998; </a>
+      <button class="btn btn-danger" @click="deleteProduct(selectedProduct)"> X</button>
+    </div>
+  </div>
 </div>
 </template>
 ```
@@ -596,13 +593,16 @@ Next you need to define different methods and variables used in this template so
 
 ```javascript
 <script>
+/* eslint-disable */
 import {APIService} from '../http/APIService';
 import Loading from './Loading';
-const API_URL = 'http://localhost:8000';
 const apiService = new APIService();
 
 export default {
   name: 'ProductList',
+  components: {
+    Loading
+  },
   data() {
     return {
       selectedProduct:null,
@@ -674,6 +674,14 @@ export default {
         console.log(r);
         if(r.status === 204)
         {
+          /*for(var i = this.products.length-1; i--;){
+            console.log(this.products[i].pk);
+            if (this.products[i].pk === product.pk) 
+            {
+              console.log("deleting product " + this.products[i].pk)
+              this.products.splice(i, 1);
+            }
+          }*/
           alert("Product deleted");
           this.$router.go()
 
@@ -732,6 +740,16 @@ export default new Router({
         component: ProductList
     },
     //...
+```
+
+### Adding filter currency
+
+Open **src/main.js**, add at the end of file
+
+```javascript
+Vue.filter('currency', function (value) {
+  return '$' + parseFloat(value).toFixed(2)
+})
 ```
 
 ### Fix error: GET /product-list HTTP/1.1" 404
@@ -793,7 +811,7 @@ This view is used to create and also update products by id so create a **Product
                 <div class="alert alert-warning" v-show="showError"  >
                   <button type="button" class="close" @click="hideMessage()">X</button>
                   <strong>Error!</strong>
-                </div>                
+                </div>
                     <h1>Create a Product</h1>
                     <div class="info-form">
                       <form>
@@ -950,5 +968,4 @@ export default new Router({
 This is a screen shot of what you should get 
 
 ![image]()
-
 
