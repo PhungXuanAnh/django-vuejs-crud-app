@@ -136,10 +136,15 @@ CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:8000',
 )
 
+IS_PRODUCTION = False
+
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': '',
-        # 'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats.json'),
-        'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats-prod.json'),
+        'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats-prod.json' if IS_PRODUCTION else '../webpack-stats.json'),
     }
 }
+CATALOG_TEMPLATE = 'index_prod.html' if IS_PRODUCTION else 'index_dev.html'
+
+# NOTE: If use wrong STATS_FILE you will encounter error: 
+# Uncaught ReferenceError: webpackJsonp is not defined
