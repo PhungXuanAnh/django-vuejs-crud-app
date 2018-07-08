@@ -1,5 +1,7 @@
 
 - [Bootstrapping the Back-End Project](#bootstrapping-the-back-end-project)
+- [Bootstrapping the Front-end Project](#bootstrapping-the-front-end-project)
+- [Enabling CORS on Django](#enabling-cors-on-django)
 - [Integrating Vue and Django](#integrating-vue-and-django)
 - [Serving the Index Template](#serving-the-index-template)
 - [Fixing Hot Code Reloading](#fixing-hot-code-reloading)
@@ -26,6 +28,7 @@ INSTALLED_APPS = [
     # ...
     'catalog'
 ]
+```
 
 If you navigate to http://127.0.0.1:8000 in a web browser, you will see the following homepage:
 
@@ -64,11 +67,8 @@ npm run dev
 
 After that, you should be able to visit the Vue.js application in your browser by navigating to http://127.0.0.1:8080.
 
-
 ```shell
-
 pip install djangorestframework
-
 ```
 
 Next, you'll need to add these packages to the list of installed apps in settings.py
@@ -80,7 +80,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-**Enabling CORS on Django**
+## Enabling CORS on Django
 
 As you are going to create a Vue.js application to consume the Django endpoints, you will need to enable CORS on your Django project. To do that, you can install the django-cors-headers utility as follows:
 
@@ -125,7 +125,6 @@ npm install --save axios
 ## Integrating Vue and Django
 
 Next run the following command to install the Webpack loader package for integrating Webpack with Django
-
 
 ```shell
 pip install django-webpack-loader
@@ -243,7 +242,6 @@ Loading failed for the <script> with source “http://127.0.0.1:8000/app.js”.
 
 You can fix this error by going to **frontend/config/index.js** next locate the **assetsPublicPath** setting and change its value from / to http://localhost:8080/
 
-
 ```javascript
 /*...*/
 module.exports = {
@@ -274,10 +272,10 @@ Add **frontend/build/webpack.dev.conf.js** a headers object in devServer.
 
 ```javascript
 
-devServer: 
-    { 
+devServer:
+    {
         /*...*/
-        headers: { 'Access-Control-Allow-Origin': '\*' }, 
+        headers: { 'Access-Control-Allow-Origin': '\*' },
         /*...*/
     },
 
