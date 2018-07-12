@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -150,7 +151,7 @@ LOG_DIR = '../logs'
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
-SLACK_API_KEY="xoxp-367845759200-367997001297-369595558007-6f49f9994300c05c8022a70ff733eb7e"
+SLACK_API_KEY= json.load(open('/home/xuananh/Dropbox/Work/Other/slack-token-api-key.json', 'r').read())['phungxuananh']
 
 LOGGING = {
     'version': 1,
